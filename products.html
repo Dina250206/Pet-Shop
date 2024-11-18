@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <meta name="title" content="Zoo - Hight Quality Pet Food">
+    <!--custom css link-->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!--google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Carter+One&family=Nunito+Sans:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="preload" as="image" href="./assets/images/hero-banner.jpg">
+</head>
+
+<body>
+    <header class="header" data-header>
+        <div class="container">
+            <button class="nav-toggle-btn" aria-label="toggle manu" data-nav-toggler>
+                <ion-icon name="menu-outline" aria-hidden="true" class="menu-icon"></ion-icon>
+                <ion-icon name="close-outline" aria-label="true" class="close-icon"></ion-icon>
+            </button>
+            <a href="#" class="logo">Zoo</a>
+            <nav class="navbar" data-navbar>
+                <ul class="navbar-list">
+                    <li class="navbar-item">
+                        <a href="index.html" class="navbar-link" data-nav-link>Home</a>
+                    </li>
+                    <li>
+                        <a href="products.html" class="navbar-link" data-nav-link>Products</a>
+                    </li>
+                    <li>
+                        <a href="faq.html" class="navbar-link" data-nav-link>FAQ</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <!-- Register button -->
+                <button class="action-btn user-btn" id="register-btn" aria-label="Register">
+                    Register
+                </button>
+
+                <!-- Log In button -->
+                <button class="action-btn user-btn" id="login-btn" aria-label="Login">
+                    Log In
+                </button>
+
+                <!-- Cart button -->
+                <button class="cart-btn" id="cart-btn" aria-label="Cart">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    <span id="cart-count">0</span>
+                </button>
+
+                <style>
+                    /* General styles for modal windows */
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 1000;
+                    }
+                
+                    .modal-box {
+                        background: #fff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        width: 400px;
+                        max-width: 90%;
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                        position: relative;
+                        text-align: center;
+                    }
+                
+                    .modal-box h2 {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #333;
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+                
+                    .modal-close {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        font-size: 24px;
+                        cursor: pointer;
+                        color: #333;
+                        transition: color 0.3s;
+                    }
+                
+                    .modal-close:hover {
+                        color: #f44336;
+                    }
+                
+                    /* Form styles */
+                    form {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+                
+                    label {
+                        font-size: 16px;
+                        color: #555;
+                    }
+                
+                    input[type="text"],
+                    input[type="email"],
+                    input[type="password"],
+                    input[type="tel"] {
+                        width: 100%;
+                        padding: 12px;
+                        font-size: 16px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        transition: border-color 0.3s;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    }
+                
+                    input[type="text"]:focus,
+                    input[type="email"]:focus,
+                    input[type="password"]:focus,
+                    input[type="tel"]:focus {
+                        border-color: #007BFF;
+                        outline: none;
+                        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+                    }
+                
+                    input::placeholder {
+                        color: #aaa;
+                        font-style: italic;
+                        opacity: 0.7;
+                        font-size: 14px;
+                    }
+                
+                    /* Buttons */
+                    button[type="submit"],
+                    .action-btn {
+                        background-color: #e5ae23;
+                        color: white;
+                        border: none;
+                        padding: 10px 15px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                    }
+                
+                    button[type="submit"]:hover,
+                    .action-btn:hover {
+                        background-color: #d69b20;
+                    }
+                
+                    /* Cart styles */
+                    #cart-items {
+                        list-style: none;
+                        padding: 0;
+                        margin: 20px 0;
+                    }
+                
+                    #cart-items li {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 10px 0;
+                        border-bottom: 1px solid #ddd;
+                    }
+                
+                    .cart-btn {
+                        background-color: #e5ae23;
+                        color: white;
+                        border: none;
+                        border-radius: 5px;
+                        padding: 8px 12px;
+                        font-size: 16px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 50px;
+                        height: 50px;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                    }
+                
+                    .cart-btn ion-icon {
+                        font-size: 22px;
+                    }
+                
+                    .cart-btn:hover {
+                        background-color: #d69b20;
+                    }
+                
+                    #cart-count {
+                        font-size: 14px;
+                        margin-left: 5px;
+                    }
+                
+                    /* Additional input and placeholder styles */
+                    input {
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    }
+                
+                    input:focus {
+                        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+                    }
+                
+                    input::placeholder {
+                        opacity: 0.7;
+                        font-size: 14px;
+                    }
+                
+                    /* Cart modal alignment fix */
+                    .cart-modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 1000;
+                    }
+                
+                    .cart-modal-box {
+                        background: #fff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        width: 400px;
+                        max-width: 90%;
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                        position: relative;
+                        text-align: center;
+                    }
+                
+                    .cart-modal-close {
+                        position: absolute;
+                        top: 10px;
+                        right: 20px;
+                        font-size: 24px;
+                        cursor: pointer;
+                        color: #333;
+                        transition: color 0.3s;
+                    }
+                
+                    .cart-modal-close:hover {
+                        color: #f44336;
+                    }
+                
+                    .modal-cart-box h2 {
+                        font-size: 24px;
+                        margin-bottom: 15px;
+                    }
+                
+                    .modal-cart-box button {
+                        margin-top: 20px;
+                    }
+                </style>
+                
+
+                <!-- User profile button (changes to the user's name) -->
+                <button class="action-btn user-btn" id="user-btn" aria-label="User">
+                    User
+                </button>
+
+                <!-- Registration modal -->
+                <div id="register-modal" class="modal-overlay">
+                    <div class="modal-box">
+                        <span id="close-register" class="modal-close">&times;</span>
+                        <h2>Register</h2>
+                        <form id="register-form">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="123-456-7890" required>
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                            <button type="submit">Register</button>
+                            <div id="register-error" class="error"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Login modal -->
+                <div id="login-modal" class="modal-overlay">
+                    <div class="modal-box">
+                        <span id="close-login" class="modal-close">&times;</span>
+                        <h2>Log In</h2>
+                        <form id="login-form">
+                            <label for="username-login">Username</label>
+                            <input type="text" id="username-login" name="username-login" required>
+                            <label for="email-login">Email</label>
+                            <input type="email" id="email-login" name="email-login" required>
+                            <label for="password-login">Password</label>
+                            <input type="password" id="password-login" name="password-login" required>
+                            <button type="submit">Log In</button>
+                            <div id="login-error" class="error"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Profile modal window -->
+                <div id="profile-modal" class="modal-overlay">
+                    <div class="modal-box">
+                        <span id="close-profile" class="modal-close">&times;</span>
+                        <h2>Profile</h2>
+                        <p><strong>Username:</strong> <span id="profile-username"></span></p>
+                        <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                        <p><strong>Phone:</strong> <span id="profile-phone"></span></p> <!-- Add this line -->
+                        <p><button id="logout-btn">Log Out</button></p>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const registerModal = document.getElementById("register-modal");
+                        const loginModal = document.getElementById("login-modal");
+                        const profileModal = document.getElementById("profile-modal");
+                        const registerBtn = document.getElementById("register-btn");
+                        const loginBtn = document.getElementById("login-btn");
+                        const userBtn = document.getElementById("user-btn");
+                        const closeRegisterBtn = document.getElementById("close-register");
+                        const closeLoginBtn = document.getElementById("close-login");
+                        const closeProfileBtn = document.getElementById("close-profile");
+                        const registerForm = document.getElementById("register-form");
+                        const loginForm = document.getElementById("login-form");
+                        const logoutBtn = document.getElementById("logout-btn");
+
+                        // Validate email format
+                        function validateEmail(email) {
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            return emailRegex.test(email);
+                        }
+
+                        // Validate password complexity
+                        function validatePassword(password) {
+                            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+                            return passwordRegex.test(password);
+                        }
+
+                        // Validate phone number format
+                        function validatePhone(phone) {
+                            const phoneRegex = /^(\+?\d{1,2}[-\s]?)?(\(?\d{3}\)?[-\s]?)?\d{3}[-\s]?\d{4}$/;
+                            return phoneRegex.test(phone);
+                        }
+
+                        // Update interface based on login status
+                        function updateInterface() {
+                            const loggedInUser = localStorage.getItem("username");
+                            if (loggedInUser) {
+                                registerBtn.style.display = "none";
+                                loginBtn.style.display = "none";
+                                userBtn.textContent = `Hello, ${loggedInUser}`;
+                                userBtn.style.display = "inline-block";
+                                logoutBtn.style.display = "inline-block";
+                            } else {
+                                registerBtn.style.display = "inline-block";
+                                loginBtn.style.display = "inline-block";
+                                userBtn.style.display = "none";
+                                logoutBtn.style.display = "none";
+                            }
+                        }
+
+                        // Open modals
+                        registerBtn.addEventListener("click", () => registerModal.style.display = "block");
+                        loginBtn.addEventListener("click", () => loginModal.style.display = "block");
+                        userBtn.addEventListener("click", () => showProfileModal());
+
+                        // Close modals
+                        closeRegisterBtn.addEventListener("click", () => registerModal.style.display = "none");
+                        closeLoginBtn.addEventListener("click", () => loginModal.style.display = "none");
+                        closeProfileBtn.addEventListener("click", () => profileModal.style.display = "none");
+
+                        function showProfileModal() {
+                            const username = localStorage.getItem("username");
+                            const email = localStorage.getItem("email");
+                            const phone = localStorage.getItem("registeredPhone");  // Get phone number from localStorage
+
+                            // Set profile information
+                            document.getElementById("profile-username").textContent = username;
+                            document.getElementById("profile-email").textContent = email;
+                            document.getElementById("profile-phone").textContent = phone ? phone : "Phone number not provided";  // Display phone number or default message
+
+                            profileModal.style.display = "block";
+                        }
+
+                        // Register new user
+                        registerForm.addEventListener("submit", (e) => {
+                            e.preventDefault();
+                            const newUsername = document.getElementById("username").value;
+                            const newEmail = document.getElementById("email").value;
+                            const newPassword = document.getElementById("password").value;
+                            const newPhone = document.getElementById("phone").value;  // Get phone number
+
+                            // Validate password length
+                            if (newPassword.length < 6) {
+                                alert("Password must be at least 6 characters long.");
+                                return;
+                            }
+
+                            // Save user details in localStorage
+                            localStorage.setItem("registeredUsername", newUsername);
+                            localStorage.setItem("registeredEmail", newEmail);
+                            localStorage.setItem("registeredPassword", newPassword);
+                            localStorage.setItem("registeredPhone", newPhone);  // Save phone number
+
+                            alert("Registration successful! Please log in.");
+                            registerModal.style.display = "none";
+                            loginModal.style.display = "block";
+
+                            // Update the interface after registration
+                            updateInterface();
+                        });
+
+                        // Log in user
+                        loginForm.addEventListener("submit", (e) => {
+                            e.preventDefault();
+                            const username = document.getElementById("username-login").value;
+                            const email = document.getElementById("email-login").value;
+                            const password = document.getElementById("password-login").value;
+
+                            const registeredUsername = localStorage.getItem("registeredUsername");
+                            const registeredEmail = localStorage.getItem("registeredEmail");
+                            const registeredPassword = localStorage.getItem("registeredPassword");
+
+                            if (username === registeredUsername && email === registeredEmail && password === registeredPassword) {
+                                localStorage.setItem("username", username);
+                                localStorage.setItem("email", email);
+
+                                alert("Login successful!");
+                                loginModal.style.display = "none";
+                                showProfileModal();
+
+                                updateInterface();
+                            } else {
+                                alert("Invalid credentials. Please try again.");
+                            }
+                        });
+
+                        // Log out user
+                        logoutBtn.addEventListener("click", () => {
+                            localStorage.removeItem("username");
+                            localStorage.removeItem("email");
+                            localStorage.removeItem("phone"); // Clear phone data on logout
+                            alert("You have logged out!");
+                            profileModal.style.display = "none";
+                            updateInterface();
+                        });
+
+                        // Initialize interface
+                        updateInterface();
+                    });
+
+                </script>
+            </div>
+    </header>
+
+
+    <button class="backTopBtn" data-back-top-btn style="display: none;">Back to Top</button>
+    <main>
+        <article>
+            <!--#HERO-->
+            <section class="section hero has-bg-image" id="home" aria-label="home"
+                style="background-image: url('./assets/images/hero-banner.jpg')">
+                <div class="container">
+                    <h1 class="h1 hero-title">
+                        <span class="span">High Quality</span> Pet Food
+                    </h1>
+                    <p class="hero-text">Sale up to 40% off today</p>
+                    <a href="products.html" class="btn1">Shop Now</a>
+                </div>
+            </section>
+            <button id="theme-toggle" aria-label="Switch Theme">Switch Theme</button>
+            <button>
+                <script>
+                    // Immediately invoked function to ensure DOM is ready before executing the script
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Check local storage for dark mode preference
+                        let darkmode = localStorage.getItem('darkmode');
+                        const themeToggleButton = document.getElementById('theme-toggle');
+
+                        // Function to enable dark mode
+                        const enableDarkmode = () => {
+                            document.body.classList.add('darkmode'); // Add dark mode class
+                            localStorage.setItem('darkmode', 'active'); // Set local storage
+                        };
+
+                        // Function to disable dark mode
+                        const disableDarkmode = () => {
+                            document.body.classList.remove('darkmode'); // Remove dark mode class
+                            localStorage.setItem('darkmode', null); // Clear local storage
+                        };
+
+                        // Initialize dark mode based on stored preference
+                        if (darkmode === "active") enableDarkmode();
+
+                        // Add event listener to the toggle button
+                        themeToggleButton.addEventListener("click", () => {
+                            darkmode = localStorage.getItem('darkmode'); // Refresh dark mode value
+                            darkmode !== "active" ? enableDarkmode() : disableDarkmode(); // Toggle mode
+                        });
+                    });
+                </script>
+            </button>
+
+            <div class="price-range-slider">
+                <h2 class="slider-title">Price Range Slider</h2>
+                <div class="slider-container">
+                    <div class="price-labels">
+                        <span id="min-price-display" class="price-display">$0</span>
+                        <span id="max-price-display" class="price-display">$100</span>
+                    </div>
+                    <div class="slider-wrapper">
+                        <input type="range" id="min-price" min="0" max="100" value="0" step="1"
+                            oninput="updatePriceRange()">
+                        <input type="range" id="max-price" min="0" max="100" value="100" step="1"
+                            oninput="updatePriceRange()">
+                    </div>
+                    <div class="price-inputs">
+                        <div class="price-box">
+                            <span>$</span>
+                            <span id="min-price-label">0</span>
+                        </div>
+                        <div class="price-box">
+                            <span>$</span>
+                            <span id="max-price-label">100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Раздел с товарами -->
+            <section class="section product" id="shop" aria-label="product">
+                <div class="container">
+                    <h2 class="h2 section-title">
+                        <span class="span">Products</span>
+                    </h2>
+                    <ul class="grid-list">
+                        <li>
+                            <div class="product-card" class="listProduct">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-1.jpg" width="360" height="360" loading="lazy"
+                                        alt="Canine Advanced Mobility Support Royal Canin US" class="img-cover default">
+                                    <img src="./assets/images/product-1_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Canine Advanced Mobility Support Royal Canin US" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="1"
+                                        data-name="Canine Advanced Mobility Support Royal Canin US" data-price="45">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Canine Advanced Mobility Support Royal Canin
+                                            US</a>
+                                    </h3>
+                                    <data class="card-price" value="45">$45.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-2.jpg" width="360" height="360" loading="lazy"
+                                        alt="Purus consequat congue sit" class="img-cover default">
+                                    <img src="./assets/images/product-2_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Purus consequat congue sit" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="2" data-name="Aqueon Shrimp Pellets"
+                                        data-price="45">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Aqueon Shrimp Pellets</a>
+                                    </h3>
+                                    <data class="card-price" value="45">$45.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-3.jpg" width="360" height="360" loading="lazy"
+                                        alt="Morbi vel arcu scelerisque" class="img-cover default">
+                                    <img src="./assets/images/product-3_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Morbi vel arcu scelerisque" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="3" data-name="Trace Minerals Research"
+                                        data-price="45">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Trace Minerals Research</a>
+                                    </h3>
+                                    <data class="card-price" value="45">$45.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-4.jpg" width="360" height="360" loading="lazy"
+                                        alt="Morbi vel arcu scelerisque" class="img-cover default">
+                                    <img src="./assets/images/product-4_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Morbi vel arcu scelerisque" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="4" data-name="ZuPreem fruitblend" data-price="49">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">ZuPreem fruitblend</a>
+                                    </h3>
+                                    <data class="card-price" value="49">$49.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-5.jpg" width="360" height="360" loading="lazy"
+                                        alt="Morbi vel arcu scelerisque" class="img-cover default">
+                                    <img src="./assets/images/product-5_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Morbi vel arcu scelerisque" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="5" data-name="Petstages" data-price="85">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Petstages</a>
+                                    </h3>
+                                    <data class="card-price" value="85">$85.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-6.jpg" width="360" height="360" loading="lazy"
+                                        alt="Nam justo libero porta ege" class="img-cover default">
+                                    <img src="./assets/images/product-6_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Nam justo libero porta ege" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="6" data-name="Comfort zone for cats side"
+                                        data-price="85">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Comfort zone for cats side</a>
+                                    </h3>
+                                    <data class="card-price" value="85">$85.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-7.jpg" width="360" height="360" loading="lazy"
+                                        alt="Nam justo libero porta ege" class="img-cover default">
+                                    <img src="./assets/images/product-7_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Nam justo libero porta ege" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="7"
+                                        data-name="Pro Plan Veterinary Diets HA Hypoallergenic" data-price="89">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Pro Plan Veterinary Diets HA Hypoallergenic</a>
+                                    </h3>
+                                    <data class="card-price" value="89">$89.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-8.jpg" width="360" height="360" loading="lazy"
+                                        alt="Etiam commodo leo sed" class="img-cover default">
+                                    <img src="./assets/images/product-8_0.jpg" width="360" height="360" loading="lazy"
+                                        alt="Etiam commodo leo sed" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="8" data-name="Urinary Care" data-price="55">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper gray">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Urinary Care</a>
+                                    </h3>
+                                    <data class="card-price" value="55">$55.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- Добавила доп 8 продакта -->
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-9.png" width="360" height="360" loading="lazy"
+                                        alt="Commodo leo sed porta" class="img-cover default">
+                                    <img src="./assets/images/product-9_0.png" width="360" height="360" loading="lazy"
+                                        alt="Commodo leo sed porta" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="9" data-name="Royal Canin" data-price="15">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Royal Canin</a>
+                                    </h3>
+                                    <data class="card-price" value="15">$15.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-10.png" width="360" height="360" loading="lazy"
+                                        alt="Commodo leo sed porta" class="img-cover default">
+                                    <img src="./assets/images/product-10_0.png" width="360" height="360" loading="lazy"
+                                        alt="Commodo leo sed porta" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="10" data-name="Commodo leo sed porta"
+                                        data-price="15">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">CleanBox BLOCK ECO</a>
+                                    </h3>
+                                    <data class="card-price" value="15">$15.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-11.png" width="360" height="360" loading="lazy"
+                                        alt="Commodo leo sed porta" class="img-cover default">
+                                    <img src="./assets/images/product-11_0.png" width="360" height="360" loading="lazy"
+                                        alt="Commodo leo sed porta" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="11" data-name="Tofu pets wc green tea wc"
+                                        data-price="25">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Tofu pets wc green tea wc</a>
+                                    </h3>
+                                    <data class="card-price" value="25">$25.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-12.png" width="360" height="360" loading="lazy"
+                                        alt="Dog poop bag holder" class="img-cover default">
+                                    <img src="./assets/images/product-12_0.png" width="360" height="360" loading="lazy"
+                                        alt="Dog poop bag holder" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="12" data-name="Dog poop bag holder"
+                                        data-price="15">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Dog poop bag holder</a>
+                                    </h3>
+                                    <data class="card-price" value="15">$15.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-13.png" width="360" height="360" loading="lazy"
+                                        alt="HOMECAT" class="img-cover default">
+                                    <img src="./assets/images/product-13_0.png" width="360" height="360" loading="lazy"
+                                        alt="HOMECAT" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="13" data-name="HOMECAT" data-price="10">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">HOMECAT</a>
+                                    </h3>
+                                    <data class="card-price" value="10">$10.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-14.png" width="360" height="360" loading="lazy"
+                                        alt="Happy Jungle" class="img-cover default">
+                                    <img src="./assets/images/product1-14_0.png" width="360" height="360" loading="lazy"
+                                        alt="Happy Jungle" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="14" data-name="Happy Jungle" data-price="15">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Happy Jungle</a>
+                                    </h3>
+                                    <data class="card-price" value="15">$15.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-15.png" width="360" height="360" loading="lazy"
+                                        alt="Dog Nail Grinder" class="img-cover default">
+                                    <img src="./assets/images/product-15_0.png" width="360" height="360" loading="lazy"
+                                        alt="Dog Nail Grinder" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="15" data-name="Dog Nail Grinder" data-price="19">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Dog Nail Grinder</a>
+                                    </h3>
+                                    <data class="card-price" value="19">$19.00</data>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-card">
+                                <div class="card-banner img-holder" style="--width: 360; --height: 360;">
+                                    <img src="./assets/images/product-16.png" width="360" height="360" loading="lazy"
+                                        alt="Cockatiel Parrot Bird Toys Hanging Bell Cage" class="img-cover default">
+                                    <img src="./assets/images/product-16_0.png" width="360" height="360" loading="lazy"
+                                        alt="Cockatiel Parrot Bird Toys Hanging Bell Cage" class="img-cover hover">
+                                    <button class="card-action-btn add-to-cart" aria-label="add to cart"
+                                        title="Add to Cart" data-id="16"
+                                        data-name="Cockatiel Parrot Bird Toys Hanging Bell Cage" data-price="14">
+                                        <ion-icon name="bag-add-outline" aria-hidden="true"></ion-icon>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="wrapper">
+                                        <div class="rating-wrapper">
+                                            <button class="star" data-rating="1" aria-label="Rate 1 star"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="2" aria-label="Rate 2 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="3" aria-label="Rate 3 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="4" aria-label="Rate 4 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                            <button class="star" data-rating="5" aria-label="Rate 5 stars"><ion-icon
+                                                    name="star-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
+                                    <h3 class="h3">
+                                        <a href="#" class="card-title">Cockatiel Parrot Bird Toys Hanging Bell Cage</a>
+                                    </h3>
+                                    <data class="card-price" value="14">$14.00</data>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </article>
+    </main>
+    <!-- Modal Window for Cart -->
+    <div id="cart-modal" class="cart-modal-overlay">
+        <div class="cart-modal-box">
+            <span id="close-cart" class="cart-modal-close">&times;</span>
+            <h2>Your Cart</h2>
+            <ul id="cart-items" class="cart-items"></ul>
+            <div id="cart-summary">
+                <p id="total-price">Total Price: $0</p>
+                <button id="clear-cart" class="cart-action-btn">Clear Cart</button>
+            </div>
+
+            <!-- Payment Form -->
+            <form id="payment-form" style="display: none; margin-top: 20px;">
+                <h3>Payment Details</h3>
+                <label for="card-name">Cardholder Name</label>
+                <input type="text" id="card-name" placeholder="Name on Card" required>
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9101 1121" maxlength="19" required>
+                <label for="expiry-date">Expiry Date</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                <button type="submit" id="checkout-button" class="cart-action-btn">Buy Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- #FOOTER-->
+    <footer class="footer" style="background-image: url('./assets/images/footer-bg.jpg')">
+        <div class="footer-top section">
+            <div class="container">
+                <div class="footer-brand">
+                    <a href="#" class="logo">Zoo</a>
+                    <p class="footer-text">
+                        If you have any question, please contact us at
+                        <a href="mailto:support@gmail.com" class="link">support@gmail.com</a>
+                    </p>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+                            <address class="address">
+                                Astana
+                            </address>
+                        </li>
+                        <li class="contact-item">
+                            <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+                            <a href="tel:+77761843031" class="contact-link">(+7)-776-184-30-31</a>
+                        </li>
+                    </ul>
+                    <ul class="social-list">
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-facebook"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-twitter"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-pinterest"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-instagram"></ion-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="copyright">
+                    &copy; 2024 Made with ♥ by <a href="#" class="copyright-link">Zhumagulova Asel & Kozhayeva Dina
+                        .</a>
+                </p>
+                <img src="./assets/images/payment.png" width="397" height="32" loading="lazy" alt="payment method"
+                    class="img">
+            </div>
+        </div>
+    </footer>
+    <script src="./assets/js/script.js" defer></script>
+    <script src="./assets/js/main.js" defer></script>
+
+    <!--ionicon link-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        // Function to update price range labels and filter products
+        function updatePriceRange() {
+            const minPrice = document.getElementById('min-price').value;
+            const maxPrice = document.getElementById('max-price').value;
+
+            document.getElementById('min-price-display').innerText = `$${minPrice}`;
+            document.getElementById('max-price-display').innerText = `$${maxPrice}`;
+
+            document.getElementById('min-price-label').innerText = minPrice;
+            document.getElementById('max-price-label').innerText = maxPrice;
+
+            filterProductsByPrice(minPrice, maxPrice);
+        }
+
+        // Add the filtering function here if you haven't done so yet
+        function filterProductsByPrice(minPrice, maxPrice) {
+            const products = document.querySelectorAll('.product-card');
+
+            products.forEach(product => {
+                const price = parseFloat(product.querySelector('.card-price').getAttribute('value'));
+
+                if (price >= minPrice && price <= maxPrice) {
+                    product.parentElement.style.display = ''; // Show product
+                } else {
+                    product.parentElement.style.display = 'none'; // Hide product
+                }
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ratingWrappers = document.querySelectorAll(".rating-wrapper");
+
+            ratingWrappers.forEach(wrapper => {
+                const productId = wrapper.closest(".product-card").querySelector(".add-to-cart").getAttribute("data-id");
+                const stars = wrapper.querySelectorAll(".star");
+
+                // Load saved rating from localStorage
+                const savedRating = localStorage.getItem(`product-rating-${productId}`);
+                if (savedRating) {
+                    highlightStars(stars, savedRating);
+                }
+
+                // Add click event to each star
+                stars.forEach(star => {
+                    star.addEventListener("click", function () {
+                        const rating = this.getAttribute("data-rating");
+                        localStorage.setItem(`product-rating-${productId}`, rating); // Save rating in localStorage
+                        highlightStars(stars, rating);
+                    });
+                });
+            });
+        });
+
+        function highlightStars(stars, rating) {
+            stars.forEach(star => {
+                const starRating = star.getAttribute("data-rating");
+                const icon = star.querySelector("ion-icon");
+
+                // Set filled or outline star based on rating
+                if (starRating <= rating) {
+                    icon.setAttribute("name", "star"); // Filled star icon
+                    icon.style.color = "gold"; // Gold for selected stars
+                } else {
+                    icon.setAttribute("name", "star-outline"); // Outline star icon
+                    icon.style.color = document.body.classList.contains("dark-mode") ? "#555" : "#ccc"; // Gray for unselected
+                }
+            });
+        }
+
+        // Optional: Listen for theme change to adjust star color dynamically
+        const themeSwitch = document.querySelector("#theme-switch");
+        if (themeSwitch) {
+            themeSwitch.addEventListener("change", () => {
+                document.body.classList.toggle("dark-mode");
+                document.querySelectorAll(".rating-wrapper .star ion-icon").forEach(icon => {
+                    if (icon.getAttribute("name") === "star-outline") {
+                        icon.style.color = document.body.classList.contains("dark-mode") ? "#555" : "#ccc";
+                    }
+                });
+            });
+        }
+    </script>
+    <script>
+        /**
+         * Activate header when window scrolls down 100px
+         */
+
+        // Находим элементы
+        const header = document.querySelector("[data-header]");
+        const backTopBtn = document.querySelector("[data-back-top-btn]");
+
+        // Функция для добавления/удаления класса active при прокрутке
+        const activeElemOnScroll = function () {
+            console.log("Scrolling:", window.scrollY); // Проверка, срабатывает ли функция
+
+            if (window.scrollY > 100) {
+                header.classList.add("active");
+                backTopBtn.classList.add("active");
+                console.log("Added active class to header and backTopBtn");
+            } else {
+                header.classList.remove("active");
+                backTopBtn.classList.remove("active");
+                console.log("Removed active class from header and backTopBtn");
+            }
+        };
+
+        // Привязываем событие прокрутки к функции
+        window.addEventListener("scroll", activeElemOnScroll);
+
+        addEventOnElem(window, "scroll", activeElemOnScroll);
+    </script>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to Top">
+        <ion-icon name="arrow-up-outline"></ion-icon>
+    </button>
+</body>
+
+</html>

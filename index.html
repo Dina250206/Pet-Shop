@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--primary meta tag-->
+    <title>Zoo - Hight Quality Pet Food</title>
+    <meta name="title" content="Zoo - Hight Quality Pet Food">
+    <!--custom css link-->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!--google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Carter+One&family=Nunito+Sans:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!--preload images-->
+    <link rel="preload" as="image" href="./assets/images/hero-banner.jpg">
+</head>
+
+<body id="top">
+    <!--#HEADER-->
+    <header class="header" data-header>
+        <div class="container">
+            <button class="nav-toggle-btn" aria-label="toggle manu" data-nav-toggler>
+                <ion-icon name="menu-outline" aria-hidden="true" class="menu-icon"></ion-icon>
+                <ion-icon name="close-outline" aria-label="true" class="close-icon"></ion-icon>
+            </button>
+            <a href="#" class="logo">Zoo</a>
+            <nav class="navbar" data-navbar>
+                <ul class="navbar-list">
+                    <li class="navbar-item">
+                        <a href="index.html" class="navbar-link" data-nav-link>Home</a>
+                    </li>
+                    <li>
+                        <a href="products.html" class="navbar-link" data-nav-link>Products</a>
+                    </li>
+                    <li>
+                        <a href="faq.html" class="navbar-link" data-nav-link>FAQ</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <!-- Register button -->
+                <button class="action-btn user-btn" id="register-btn" aria-label="Register">
+                    Register
+                </button>
+
+                <!-- Log In button -->
+                <button class="action-btn user-btn" id="login-btn" aria-label="Login">
+                    Log In
+                </button>
+
+                <!-- Cart button -->
+                <button class="cart-btn" id="cart-btn" aria-label="Cart">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    <span id="cart-count">0</span>
+                </button>
+                
+                <style>
+                    /* General styles for modal windows */
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 1000;
+                    }
+
+                    .modal-box {
+                        background: #fff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        width: 400px;
+                        max-width: 90%;
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                        position: relative;
+                        text-align: center;
+                    }
+
+                    .modal-box h2 {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #333;
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+
+                    .modal-close {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        font-size: 24px;
+                        cursor: pointer;
+                        color: #333;
+                        transition: color 0.3s;
+                    }
+
+                    .modal-close:hover {
+                        color: #f44336;
+                    }
+
+                    /* Form styles */
+                    form {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+
+                    label {
+                        font-size: 16px;
+                        color: #555;
+                    }
+
+                    input[type="text"],
+                    input[type="email"],
+                    input[type="password"],
+                    input[type="tel"] {
+                        width: 100%;
+                        padding: 12px;
+                        font-size: 16px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        transition: border-color 0.3s;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    }
+
+                    input[type="text"]:focus,
+                    input[type="email"]:focus,
+                    input[type="password"]:focus,
+                    input[type="tel"]:focus {
+                        border-color: #007BFF;
+                        outline: none;
+                        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+                    }
+
+                    input::placeholder {
+                        color: #aaa;
+                        font-style: italic;
+                        opacity: 0.7;
+                        font-size: 14px;
+                    }
+
+                    /* Buttons */
+                    button[type="submit"],
+                    .action-btn {
+                        background-color: #e5ae23;
+                        color: white;
+                        border: none;
+                        padding: 10px 15px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                    }
+
+                    button[type="submit"]:hover,
+                    .action-btn:hover {
+                        background-color: #d69b20;
+                    }
+
+                    /* Cart styles */
+                    #cart-items {
+                        list-style: none;
+                        padding: 0;
+                        margin: 20px 0;
+                    }
+
+                    #cart-items li {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 10px 0;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .cart-btn {
+                        background-color: #e5ae23;
+                        color: white;
+                        border: none;
+                        border-radius: 5px;
+                        padding: 8px 12px;
+                        font-size: 16px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 50px;
+                        height: 50px;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                    }
+
+                    .cart-btn ion-icon {
+                        font-size: 22px;
+                    }
+
+                    .cart-btn:hover {
+                        background-color: #d69b20;
+                    }
+
+                    #cart-count {
+                        font-size: 14px;
+                        margin-left: 5px;
+                    }
+
+                    /* Additional input and placeholder styles */
+                    input {
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    }
+
+                    input:focus {
+                        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+                    }
+
+                    input::placeholder {
+                        opacity: 0.7;
+                        font-size: 14px;
+                    }
+
+                    /* Cart modal alignment fix */
+                    .cart-modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: none;
+                        align-items: center;
+                        /* Центрирование по вертикали */
+                        justify-content: center;
+                        /* Центрирование по горизонтали */
+                        z-index: 1000;
+                    }
+
+                    .cart-modal-box {
+                        background: #fff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        width: 400px;
+                        max-width: 90%;
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                        position: relative;
+                        text-align: center;
+                    }
+
+                    .cart-modal-close {
+                        position: absolute;
+                        top: 10px;
+                        right: 20px;
+                        /* Увеличиваем отступ справа */
+                        font-size: 24px;
+                        cursor: pointer;
+                        color: #333;
+                        transition: color 0.3s;
+                    }
+
+                    .cart-modal-close:hover {
+                        color: #f44336;
+                    }
+
+
+                    .modal-cart-box h2 {
+                        font-size: 24px;
+                        margin-bottom: 15px;
+                    }
+
+                    .modal-cart-box button {
+                        margin-top: 20px;
+                    }
+                </style>
+
+
+                <!-- User profile button (changes to the user's name) -->
+                <button class="action-btn user-btn" id="user-btn" aria-label="User">
+                    User
+                </button>
+
+                <!-- Registration modal -->
+                <div id="register-modal" class="modal-overlay">
+                    <div class="modal-box">
+                        <span id="close-register" class="modal-close">&times;</span>
+                        <h2>Register</h2>
+                        <form id="register-form">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="123-456-7890" required>
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                            <button type="submit">Register</button>
+                            <div id="register-error" class="error"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Login modal -->
+                <div id="login-modal" class="modal-overlay">
+                    <div class="modal-box">
+                        <span id="close-login" class="modal-close">&times;</span>
+                        <h2>Log In</h2>
+                        <form id="login-form">
+                            <label for="username-login">Username</label>
+                            <input type="text" id="username-login" name="username-login" required>
+                            <label for="email-login">Email</label>
+                            <input type="email" id="email-login" name="email-login" required>
+                            <label for="password-login">Password</label>
+                            <input type="password" id="password-login" name="password-login" required>
+                            <button type="submit">Log In</button>
+                            <div id="login-error" class="error"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Profile modal window -->
+                <div id="profile-modal" class="modal-overlay">
+                    <div class="modal-box">
+                        <span id="close-profile" class="modal-close">&times;</span>
+                        <h2>Profile</h2>
+                        <p><strong>Username:</strong> <span id="profile-username"></span></p>
+                        <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                        <p><strong>Phone:</strong> <span id="profile-phone"></span></p> <!-- Add this line -->
+                        <p><button id="logout-btn">Log Out</button></p>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const registerModal = document.getElementById("register-modal");
+                        const loginModal = document.getElementById("login-modal");
+                        const profileModal = document.getElementById("profile-modal");
+                        const registerBtn = document.getElementById("register-btn");
+                        const loginBtn = document.getElementById("login-btn");
+                        const userBtn = document.getElementById("user-btn");
+                        const closeRegisterBtn = document.getElementById("close-register");
+                        const closeLoginBtn = document.getElementById("close-login");
+                        const closeProfileBtn = document.getElementById("close-profile");
+                        const registerForm = document.getElementById("register-form");
+                        const loginForm = document.getElementById("login-form");
+                        const logoutBtn = document.getElementById("logout-btn");
+
+                        // Validate email format
+                        function validateEmail(email) {
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            return emailRegex.test(email);
+                        }
+
+                        // Validate password complexity
+                        function validatePassword(password) {
+                            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+                            return passwordRegex.test(password);
+                        }
+
+                        // Validate phone number format
+                        function validatePhone(phone) {
+                            const phoneRegex = /^(\+?\d{1,2}[-\s]?)?(\(?\d{3}\)?[-\s]?)?\d{3}[-\s]?\d{4}$/;
+                            return phoneRegex.test(phone);
+                        }
+
+                        // Update interface based on login status
+                        function updateInterface() {
+                            const loggedInUser = localStorage.getItem("username");
+                            if (loggedInUser) {
+                                registerBtn.style.display = "none";
+                                loginBtn.style.display = "none";
+                                userBtn.textContent = `Hello, ${loggedInUser}`;
+                                userBtn.style.display = "inline-block";
+                                logoutBtn.style.display = "inline-block";
+                            } else {
+                                registerBtn.style.display = "inline-block";
+                                loginBtn.style.display = "inline-block";
+                                userBtn.style.display = "none";
+                                logoutBtn.style.display = "none";
+                            }
+                        }
+
+                        // Open modals
+                        registerBtn.addEventListener("click", () => registerModal.style.display = "block");
+                        loginBtn.addEventListener("click", () => loginModal.style.display = "block");
+                        userBtn.addEventListener("click", () => showProfileModal());
+
+                        // Close modals
+                        closeRegisterBtn.addEventListener("click", () => registerModal.style.display = "none");
+                        closeLoginBtn.addEventListener("click", () => loginModal.style.display = "none");
+                        closeProfileBtn.addEventListener("click", () => profileModal.style.display = "none");
+
+                        function showProfileModal() {
+                            const username = localStorage.getItem("username");
+                            const email = localStorage.getItem("email");
+                            const phone = localStorage.getItem("registeredPhone");  // Get phone number from localStorage
+
+                            // Set profile information
+                            document.getElementById("profile-username").textContent = username;
+                            document.getElementById("profile-email").textContent = email;
+                            document.getElementById("profile-phone").textContent = phone ? phone : "Phone number not provided";  // Display phone number or default message
+
+                            profileModal.style.display = "block";
+                        }
+
+                        // Register new user
+                        registerForm.addEventListener("submit", (e) => {
+                            e.preventDefault();
+                            const newUsername = document.getElementById("username").value;
+                            const newEmail = document.getElementById("email").value;
+                            const newPassword = document.getElementById("password").value;
+                            const newPhone = document.getElementById("phone").value;  // Get phone number
+
+                            // Validate password length
+                            if (newPassword.length < 6) {
+                                alert("Password must be at least 6 characters long.");
+                                return;
+                            }
+
+                            // Save user details in localStorage
+                            localStorage.setItem("registeredUsername", newUsername);
+                            localStorage.setItem("registeredEmail", newEmail);
+                            localStorage.setItem("registeredPassword", newPassword);
+                            localStorage.setItem("registeredPhone", newPhone);  // Save phone number
+
+                            alert("Registration successful! Please log in.");
+                            registerModal.style.display = "none";
+                            loginModal.style.display = "block";
+
+                            // Update the interface after registration
+                            updateInterface();
+                        });
+
+                        // Log in user
+                        loginForm.addEventListener("submit", (e) => {
+                            e.preventDefault();
+                            const username = document.getElementById("username-login").value;
+                            const email = document.getElementById("email-login").value;
+                            const password = document.getElementById("password-login").value;
+
+                            const registeredUsername = localStorage.getItem("registeredUsername");
+                            const registeredEmail = localStorage.getItem("registeredEmail");
+                            const registeredPassword = localStorage.getItem("registeredPassword");
+
+                            if (username === registeredUsername && email === registeredEmail && password === registeredPassword) {
+                                localStorage.setItem("username", username);
+                                localStorage.setItem("email", email);
+
+                                alert("Login successful!");
+                                loginModal.style.display = "none";
+                                showProfileModal();
+
+                                updateInterface();
+                            } else {
+                                alert("Invalid credentials. Please try again.");
+                            }
+                        });
+
+                        // Log out user
+                        logoutBtn.addEventListener("click", () => {
+                            localStorage.removeItem("username");
+                            localStorage.removeItem("email");
+                            localStorage.removeItem("phone"); // Clear phone data on logout
+                            alert("You have logged out!");
+                            profileModal.style.display = "none";
+                            updateInterface();
+                        });
+
+                        // Initialize interface
+                        updateInterface();
+                    });
+
+                </script>
+            </div>
+
+    </header>
+
+    <main>
+        <article>
+            <!--#HERO-->
+            <section class="section hero has-bg-image" id="home" aria-label="home"
+                style="background-image: url('./assets/images/hero-banner.jpg')">
+                <div class="container">
+                    <h1 class="h1 hero-title">
+                        <span class="span">High Quality</span> Pet Food
+                    </h1>
+                    <p class="hero-text">Sale up to 40% off today</p>
+                    <a href="products.html" class="btn1">Shop Now</a>
+                </div>
+            </section>
+            <!--#CATEGORY-->
+            <button id="theme-toggle" aria-label="Switch Theme">Switch Theme</button>
+            <button>
+                <script>
+                    // Immediately invoked function to ensure DOM is ready before executing the script
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Check local storage for dark mode preference
+                        let darkmode = localStorage.getItem('darkmode');
+                        const themeToggleButton = document.getElementById('theme-toggle');
+
+                        // Function to enable dark mode
+                        const enableDarkmode = () => {
+                            document.body.classList.add('darkmode'); // Add dark mode class
+                            localStorage.setItem('darkmode', 'active'); // Set local storage
+                        };
+
+                        // Function to disable dark mode
+                        const disableDarkmode = () => {
+                            document.body.classList.remove('darkmode'); // Remove dark mode class
+                            localStorage.setItem('darkmode', null); // Clear local storage
+                        };
+
+                        // Initialize dark mode based on stored preference
+                        if (darkmode === "active") enableDarkmode();
+
+                        // Add event listener to the toggle button
+                        themeToggleButton.addEventListener("click", () => {
+                            darkmode = localStorage.getItem('darkmode'); // Refresh dark mode value
+                            darkmode !== "active" ? enableDarkmode() : disableDarkmode(); // Toggle mode
+                        });
+                    });
+                </script>
+            </button>
+            <section class="section category" aria-label="category">
+                <div class="container">
+                    <h2 class="h2 section-title">
+                        <span class="span">Top categories</span>
+                    </h2>
+                    <ul class="has-scrollbar">
+                        <li class="scrollbar-item">
+                            <div class="category-card">
+                                <figure class="card-banner img-holder" style="--width: 330; --height: 300;">
+                                    <img src="./assets/images/category-1.jpg" width="330" height="300" loading="lazy"
+                                        alt="Cat Food" class="img-cover">
+                                </figure>
+                                <h3 class="h3">
+                                    <a href="#" class="card-title">Cat Food</a>
+                                </h3>
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="category-card">
+                                <figure class="card-banner img-holder" style="--width: 330; --height: 300;">
+                                    <img src="./assets/images/category-2.jpg" width="330" height="300" loading="lazy"
+                                        alt="Cat Toys" class="img-cover">
+                                </figure>
+                                <h3 class="h3">
+                                    <a href="#" class="card-title">Cat Toys</a>
+                                </h3>
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="category-card">
+                                <figure class="card-banner img-holder" style="--width: 330; --height: 300;">
+                                    <img src="./assets/images/category-3.jpg" width="330" height="300" loading="lazy"
+                                        alt="Dog Food" class="img-cover">
+                                </figure>
+                                <h3 class="h3">
+                                    <a href="#" class="card-title">Dog Food</a>
+                                </h3>
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="category-card">
+                                <figure class="card-banner img-holder" style="--width: 330; --height: 300;">
+                                    <img src="./assets/images/category-4.jpg" width="330" height="300" loading="lazy"
+                                        alt="Dog Toys" class="img-cover">
+                                </figure>
+                                <h3 class="h3">
+                                    <a href="#" class="card-title">Dog Toys</a>
+                                </h3>
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="category-card">
+                                <figure class="card-banner img-holder" style="--width: 330; --height: 300;">
+                                    <img src="./assets/images/category-5.jpg" width="330" height="300" loading="lazy"
+                                        alt="Dog Sumpplements" class="img-cover">
+                                </figure>
+                                <h3 class="h3">
+                                    <a href="#" class="card-title">Dog Sumpplements</a>
+                                </h3>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <!--#OFFERS-->
+            <section class="section offer" aria-label="offer">
+                <div class="container">
+                    <ul class="grid-list">
+                        <!-- First card -->
+                        <li>
+                            <div class="offer-card has-bg-image img-holder"
+                                style="background-image: url('./assets/images/offer-banner-1.jpg'); --width: 540; --height: 374;">
+                                <p class="card-subtitle">Selected Items. Online Only.</p>
+                                <h3 class="h3 card-title">
+                                    Hot Summer <span class="span">Deals</span>
+                                </h3>
+                                <a href="#" class="btn2" id="read-more-1">Read More</a>
+                                <div id="more-text-1" class="more-text" style="display:none;">
+                                    <p>Discover amazing discounts on selected pet products, available exclusively
+                                        online. Keep your pet happy without breaking the bank!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- Second card -->
+                        <li>
+                            <div class="offer-card has-bg-image img-holder"
+                                style="background-image: url('./assets/images/offer-banner-2.jpg'); --width: 540; --height: 374;">
+                                <p class="card-subtitle">Treats & Grooming</p>
+                                <h3 class="h3 card-title">
+                                    Spoil your true <span class="span">love</span>
+                                </h3>
+                                <a href="#" class="btn2" id="read-more-2">Read More</a>
+                                <div id="more-text-2" class="more-text" style="display:none;">
+                                    <p>Pamper your furry friends with premium treats and grooming products. Show them
+                                        your love with top-quality care essentials.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- Third card -->
+                        <li>
+                            <div class="offer-card has-bg-image img-holder"
+                                style="background-image: url('./assets/images/offer-banner-3.jpg'); --width: 540; --height: 374;">
+                                <p class="card-subtitle">Our Brand You Will Love</p>
+                                <h3 class="h3 card-title">
+                                    New in this <span class="span">year</span>
+                                </h3>
+                                <a href="#" class="btn2" id="read-more-3">Read More</a>
+                                <div id="more-text-3" class="more-text" style="display:none;">
+                                    <p>Explore our latest range of pet products that you'll love. Quality, innovation,
+                                        and style to keep your pet healthy and happy.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!--#SERVICE-->
+            <section class="section service" aria-label="service">
+                <div class="container">
+                    <img src="./assets/images/service-image.png" width="122" height="136" loading="lazy" alt=""
+                        class="img">
+                    <h2 class="h2 section-title">
+                        <span class="span">What your pet needs, when they need it.</span>
+                    </h2>
+                    <ul class="grid-list">
+                        <li>
+                            <div class="service-card">
+                                <figure class="card-icon">
+                                    <img src="./assets/images/service-icon-1.png" width="70" height="70" loading="lazy"
+                                        alt="service icon">
+                                </figure>
+                                <h3 class="h3 card-title">Free Same-Day Delivery</h3>
+                                <p class="card-text">
+                                    Order by 2pm local time to get free delivery on orders $35+ today.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="service-card">
+                                <figure class="card-icon">
+                                    <img src="./assets/images/service-icon-2.png" width="70" height="70" loading="lazy"
+                                        alt="service icon">
+                                </figure>
+                                <h3 class="h3 card-title">30 Day Return</h3>
+                                <p class="card-text">
+                                    35% off your first order plus 5% off all future orders.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="service-card">
+                                <figure class="card-icon">
+                                    <img src="./assets/images/service-icon-3.png" width="70" height="70" loading="lazy"
+                                        alt="service icon">
+                                </figure>
+                                <h3 class="h3 card-title">Security payment</h3>
+                                <p class="card-text">
+                                    25% off your online order of $50+. Available at most locations.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="service-card">
+                                <figure class="card-icon">
+                                    <img src="./assets/images/service-icon-4.png" width="70" height="70" loading="lazy"
+                                        alt="service icon">
+                                </figure>
+                                <h3 class="h3 card-title">24/7 Support</h3>
+                                <p class="card-text">
+                                    Shop online to get orders over $35 shipped fast and free.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <!--#CTA-->
+            <section class="cta has-bg-image" aria-label="cta"
+                style="background-image: url('./assets/images/cta-bg.jpg')">
+                <div class="container">
+                    <figure class="cta-banner">
+                        <img src="./assets/images/cta-banner.png" width="900" height="660" loading="lazy" alt="cat"
+                            class="w-100">
+                    </figure>
+                    <div class="cta-content">
+                        <img src="./assets/images/cta-icon.png" width="120" height="35" loading="lazy"
+                            alt="taste guarantee" class="img">
+                        <h2 class="h2 section-title">Taste it, love it or we’ll replace it… Guaranteed!</h2>
+                        <p class="section-text">
+                            At Petio, we believe your dog and cat will love their food so much that if they don’t …
+                            we’ll help you
+                            find a
+                            replacement. That’s our taste guarantee.
+                        </p>
+                        <a href="#" class="btn1" id="sound-btn">Find out more</a>
+                    </div>
+                </div>
+            </section>
+            <!-- #BRAND-->
+            <section class="section brand" aria-label="brand">
+                <div class="container">
+                    <h2 class="h2 section-title">
+                        <span class="span">Popular Brands</span>
+                    </h2>
+                    <ul class="has-scrollbar">
+                        <li class="scrollbar-item">
+                            <div class="brand-card img-holder" style="--width: 150; --height: 150;">
+                                <img src="./assets/images/brand-1.jpg" width="150" height="150" loading="lazy"
+                                    alt="brand logo" class="img-cover">
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="brand-card img-holder" style="--width: 150; --height: 150;">
+                                <img src="./assets/images/brand-2.jpg" width="150" height="150" loading="lazy"
+                                    alt="brand logo" class="img-cover">
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="brand-card img-holder" style="--width: 150; --height: 150;">
+                                <img src="./assets/images/brand-3.jpg" width="150" height="150" loading="lazy"
+                                    alt="brand logo" class="img-cover">
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="brand-card img-holder" style="--width: 150; --height: 150;">
+                                <img src="./assets/images/brand-4.jpg" width="150" height="150" loading="lazy"
+                                    alt="brand logo" class="img-cover">
+                            </div>
+                        </li>
+                        <li class="scrollbar-item">
+                            <div class="brand-card img-holder" style="--width: 150; --height: 150;">
+                                <img src="./assets/images/brand-5.jpg" width="150" height="150" loading="lazy"
+                                    alt="brand logo" class="img-cover">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </article>
+        <p id="weather"></p>
+    </main>
+   <!-- Modal Window for Cart -->
+    <div id="cart-modal" class="cart-modal-overlay">
+        <div class="cart-modal-box">
+            <span id="close-cart" class="cart-modal-close">&times;</span>
+            <h2>Your Cart</h2>
+            <ul id="cart-items" class="cart-items"></ul>
+            <div id="cart-summary">
+                <p id="total-price">Total Price: $0</p>
+                <button id="clear-cart" class="cart-action-btn">Clear Cart</button>
+            </div>
+
+            <!-- Payment Form -->
+            <form id="payment-form" style="display: none; margin-top: 20px;">
+                <h3>Payment Details</h3>
+                <label for="card-name">Cardholder Name</label>
+                <input type="text" id="card-name" placeholder="Name on Card" required>
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9101 1121" maxlength="19" required>
+                <label for="expiry-date">Expiry Date</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                <button type="submit" id="checkout-button" class="cart-action-btn">Buy Now</button>
+            </form>
+        </div>
+    </div>
+    <!-- #FOOTER-->
+    <footer class="footer" style="background-image: url('./assets/images/footer-bg.jpg')">
+        <div class="footer-top section">
+            <div class="container">
+                <div class="footer-brand">
+                    <a href="#" class="logo">Zoo</a>
+                    <p class="footer-text">
+                        If you have any question, please contact us at
+                        <a href="mailto:support@gmail.com" class="link">support@gmail.com</a>
+                    </p>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+                            <address class="address">
+                                Astana
+                            </address>
+                        </li>
+                        <li class="contact-item">
+                            <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+                            <a href="tel:+77761843031" class="contact-link">(+7)-776-184-30-31</a>
+                        </li>
+                    </ul>
+                    <ul class="social-list">
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-facebook"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-twitter"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-pinterest"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-instagram"></ion-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="copyright">
+                    &copy; 2024 Made with ♥ by <a href="#" class="copyright-link">Zhumagulova Asel & Kozhayeva Dina
+                        .</a>
+                </p>
+                <img src="./assets/images/payment.png" width="397" height="32" loading="lazy" alt="payment method"
+                    class="img">
+            </div>
+        </div>
+    </footer>
+    <!--#BACK TO TOP-->
+    <!--custom js link-->
+    <script src="./assets/js/script.js" defer></script>
+    <script src="./assets/js/main.js" defer></script>
+    <!--ionicon link-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <button id="back-to-top" class="back-to-top" aria-label="Back to Top">
+        <ion-icon name="arrow-up-outline"></ion-icon>
+    </button>
+
+    <!-- Modal structure -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modal-text"></p>
+        </div>
+    </div>
+</body>
+
+</html>
